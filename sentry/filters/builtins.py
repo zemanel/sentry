@@ -22,6 +22,7 @@ class StatusFilter(GroupFilter):
         return SortedDict([
             (0, _('Unresolved')),
             (1, _('Resolved')),
+            (2, _('Muted')),
         ])
 
 

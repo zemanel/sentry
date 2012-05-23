@@ -255,6 +255,39 @@ def resolve(request, project):
 @csrf_exempt
 @has_access
 @never_cache
+def mute(request, project):
+    gid = request.REQUEST.get('gid')
+    if not gid:
+        return HttpResponseForbidden()
+    try:
+        group = Group.objects.get(pk=gid)
+    except Group.DoesNotExist:
+        return HttpResponseForbidden()
+
+    now = datetime.datetime.now()
+
+    Group.objects.filter(pk=group.pk).update(
+        status=2,
+    )
+    group.status = 2
+
+    data = [
+        (m.pk, {
+            'html': render_to_string('sentry/partial/_group.html', {
+                'group': m,
+                'request': request,
+            }).strip(),
+            'count': m.times_seen,
+        }) for m in [group]]
+
+    response = HttpResponse(json.dumps(data))
+    response['Content-Type'] = 'application/json'
+    return response
+
+
+@csrf_exempt
+@has_access
+@never_cache
 def remove_group(request, project, group_id):
     try:
         group = Group.objects.get(pk=group_id)

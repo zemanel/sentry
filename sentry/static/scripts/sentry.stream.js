@@ -39,6 +39,30 @@ if (Sentry === undefined) {
             }
         });
     };
+    Sentry.stream.mute = function(project_id, gid, remove){
+        if (typeof(remove) == 'undefined') {
+            remove = true;
+        }
+        $.ajax({
+            url: Sentry.options.urlPrefix + '/api/' + project_id + '/mute/',
+            type: 'post',
+            dataType: 'json',
+            data: {
+                gid: gid
+            },
+            success: function(groups){
+                for (var i=groups.length-1, el, row; (el=groups[i]); i--) {
+                    var id = el[0];
+                    var data = el[1];
+                    $('#group_' + id).remove();
+                    if (!remove) {
+                        $('#event_list').prepend(data.html);
+                        $('#group_' + id).addClass('fresh');
+                    }
+                }
+            }
+        });
+    };
     Sentry.stream.bookmark = function(project_id, gid, el){
         $.ajax({
             url: Sentry.options.urlPrefix + '/api/' + project_id + '/bookmark/',

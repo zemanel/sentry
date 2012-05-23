@@ -34,6 +34,9 @@
             <li>
                 {% if group.status == 0 %}
                     <a href="javascript:void(0)" class="tip" onclick="Sentry.stream.resolve('{{ group.project.slug }}', {{ group.pk }}, this);" rel="tooltip" title="{% trans "Mark as Resolved" %}">&#10003;</a>
+            </li>
+            <li>
+                    <a href="javascript:void(0)" class="tip" onclick="Sentry.stream.mute('{{ group.project.slug }}', {{ group.pk }}, this);" rel="tooltip" title="{% trans "Mute" %}">&#9986;</a>
                 {% else %}
                     <a href="javascript:void(0)" class="tip disabled" rel="tooltip" title="{% trans "Already Resolved" %}">&#10003;</a>
                 {% endif %}

@@ -41,9 +41,11 @@ __all__ = ('Event', 'Group', 'Project', 'SearchDocument')
 
 STATUS_UNRESOLVED = 0
 STATUS_RESOLVED = 1
+STATUS_MUTED = 2
 STATUS_LEVELS = (
     (STATUS_UNRESOLVED, _('unresolved')),
     (STATUS_RESOLVED, _('resolved')),
+    (STATUS_MUTED, _('muted')),
 )
 
 # These are predefined builtin's
